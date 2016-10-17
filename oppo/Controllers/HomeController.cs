@@ -19,6 +19,11 @@ namespace oppo.Controllers
 
             return View();
         }
+        public ActionResult welcome()
+        {
+         
+            return View();
+        }
 
         public ActionResult Contact()
         {
