@@ -30,7 +30,16 @@ namespace oppo.Controllers
             ViewBag.sum = sum;
             return View();
         }
+        public ActionResult List()
+        {
+            string[] data = new string[] {"台风逼近广西景区关闭学校停课",
+                     "广西游客超300万了"};
 
+
+
+            ViewBag.data = data;
+            return View(data);
+        }
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";
