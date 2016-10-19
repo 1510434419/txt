@@ -21,7 +21,13 @@ namespace oppo.Controllers
         }
         public ActionResult welcome()
         {
-         
+            int a=100;
+            int sum = 0;
+            for (int i = 1; i <= a; i++)
+            {
+                sum += i;
+            }
+            ViewBag.sum = sum;
             return View();
         }
 
