@@ -46,6 +46,17 @@ namespace oppo.Controllers
 
             return View();
         }
-       
+        public ActionResult Add()
+        {
+           
+            return View();
+        }
+        public ActionResult Save(string tile,string content)
+        {
+            ViewBag.Tile = tile;
+            ViewBag.Content = content;
+            return View();
+        }
+
     }
 }
