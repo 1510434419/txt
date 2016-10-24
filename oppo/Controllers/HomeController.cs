@@ -30,14 +30,14 @@ namespace oppo.Controllers
             ViewBag.sum = sum;
             return View();
         }
-        public ActionResult List()
+        public ActionResult List(int page=3)
         {
             string[] data = new string[] {"台风逼近广西景区关闭学校停课",
                      "广西游客超300万了"};
 
 
-
             ViewBag.data = data;
+            ViewBag.page = page;
             return View(data);
         }
         public ActionResult Contact()
@@ -46,5 +46,6 @@ namespace oppo.Controllers
 
             return View();
         }
+       
     }
 }
