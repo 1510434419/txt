@@ -4,29 +4,31 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace News.Controllers
+namespace oppo.Controllers
 {
     public class BlogController : Controller
     {
         // GET: Blog
-        public ActionResult Index()
+        public ActionResult Index(string ss)
         {
             var db = new BlogDatabase();
 
-          db.Database.CreateIfNotExists();
+            db.Database.CreateIfNotExists();
 
-            var lst = db.BlogArticles.OrderByDescending(o => o.Id).ToList();
-            ViewBag.BlogArticles = lst;
+            var lst = db.BlogArticles.AsQueryable();
+            if (!string.IsNullOrWhiteSpace(ss))
+            {
+                lst = lst.Where(o => o.Subject.Contains(ss));
+            }
 
+            ViewBag.BlogArticles = lst.OrderByDescending(o => o.Id).ToList();
+            ViewBag.ss = ss;
             return View();
         }
-
-
         public ActionResult AddArticle()
         {
             return View();
         }
-
         public ActionResult ArticleSave(string subject, string body)
         {
             var article = new BlogArticle();
@@ -35,12 +37,11 @@ namespace News.Controllers
             article.DateCreated = DateTime.Now;
 
             var db = new BlogDatabase();
-           // db.BlogArticles.Add(article);
+            db.BlogArticles.Add(article);
             db.SaveChanges();
 
             return Redirect("Index");
         }
-
         public ActionResult Show(int id)
         {
             var db = new BlogDatabase();
@@ -49,7 +50,6 @@ namespace News.Controllers
             ViewData.Model = article;
             return View();
         }
-
         public ActionResult Edit(int id)
         {
             var db = new BlogDatabase();
@@ -58,7 +58,6 @@ namespace News.Controllers
             ViewData.Model = article;
             return View();
         }
-
         public ActionResult EditSave(int id, string subject, string body)
         {
             var db = new BlogDatabase();
@@ -71,12 +70,6 @@ namespace News.Controllers
 
             return RedirectToAction("Index");
         }
-
-        /// <summary>
-        /// 删除博文
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
         public ActionResult Delete(int id)
         {
             var db = new BlogDatabase();
