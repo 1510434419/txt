@@ -9,36 +9,43 @@ namespace oppo.Controllers
     public class BlogController : Controller
     {
         // GET: Blog
-        public ActionResult Index(string ss)
+        public ActionResult Index(string q)
         {
             var db = new BlogDatabase();
 
             db.Database.CreateIfNotExists();
 
             var lst = db.BlogArticles.AsQueryable();
-            if (!string.IsNullOrWhiteSpace(ss))
+
+            if (!string.IsNullOrWhiteSpace(q))
             {
-                lst = lst.Where(o => o.Subject.Contains(ss));
+                lst = lst.Where(o => o.Subject.Contains(q));
             }
 
+
             ViewBag.BlogArticles = lst.OrderByDescending(o => o.Id).ToList();
-            ViewBag.ss = ss;
+            ViewBag.q = q;
+
             return View();
         }
         public ActionResult AddArticle()
         {
             return View();
         }
-        public ActionResult ArticleSave(string subject, string body)
+        public ActionResult ArticleSave(BlogArticle model)
         {
-            var article = new BlogArticle();
-            article.Subject = subject;
-            article.Body = body;
-            article.DateCreated = DateTime.Now;
+            if (ModelState.IsValid)
+            {
+                var article = new BlogArticle();
+                article.Subject = model.Subject;
+                article.Body = model.Body;
+                article.DateCreated = DateTime.Now;
 
-            var db = new BlogDatabase();
-            db.BlogArticles.Add(article);
-            db.SaveChanges();
+                var db = new BlogDatabase();
+                db.BlogArticles.Add(article);
+                db.SaveChanges();
+            }
+
 
             return Redirect("Index");
         }
