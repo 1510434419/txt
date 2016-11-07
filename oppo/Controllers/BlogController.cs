@@ -40,6 +40,7 @@ namespace oppo.Controllers
                 article.Subject = model.Subject;
                 article.Body = model.Body;
                 article.DateCreated = DateTime.Now;
+               
 
                 var db = new BlogDatabase();
                 db.BlogArticles.Add(article);

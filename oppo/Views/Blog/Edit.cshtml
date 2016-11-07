@@ -5,17 +5,21 @@
 
 <h2>编辑</h2>
 
-<form action="/Blog/EditSave" method="post">
+@using (Html.BeginForm("ArticleSave", "Blog"))
+{
+
     <input type="hidden" value="@Model.Id" name="Id" />
     <table class="table table-bordered">
         <tr>
             <td>标题：</td>
-            <td><input type="text" name="Subject" value="@Model.Subject" />  </td>
+            <td>
+                @Html.TextBox("Subject")
+            </td>
         </tr>
         <tr>
             <td>内容</td>
             <td>
-                <textarea name="Body" cols="60" rows="4" style="width:600px; max-width:1000px;">@Model.Body</textarea>
+                @Html.TextArea("Body", new { style = "width:600px; max-width:1000px;" })
             </td>
         </tr>
         <tr>
@@ -27,5 +31,4 @@
         </tr>
 
     </table>
-</form>
-
+}
